@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mapa Świata</title>
+<link href="https://fonts.googleapis.com/css2?family=Amatic SC:wght@400;700&display=swap" rel="stylesheet">
+<style>
+    #map-title {
+        font-family: 'Amatic SC', sans-serif; /* Używamy czcionki Pacifico */
+        font-size: 120px;
+        text-align: center;
+        margin-top: -60px;
+    }
+    body, html {
+        height: 100%;
+        margin: 0;
+    }
+
+    #map-container {
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative; /* Dodane */
+    }
+
+    #map {
+        width: 1300px;
+        height: 866px;
+        background-image: url('world-map.png');
+        background-size: contain;
+        background-repeat: no-repeat;
+        position: absolute;
+    }
+
+    #map-label {
+        font-family: 'Amatic SC', sans-serif;
+        font-size: 24px;
+        font-weight: bold;
+        margin-top: 20px;
+    }
+
+    .dot {
+        height: 10px;
+        width: 10px;
+        background-color: black;
+        border-radius: 50%;
+        position: absolute;
+        animation: moveGradient 10s linear infinite; /* Dodane */
+        transition: transform 0.3s ease; /* Dodane */
+    }
+
+    @keyframes moveGradient {
+        0% {background-color: #ff0000;} /* Początkowy kolor */
+        25% {background-color: #33ff00;}
+        50% {background-color: #2600ff;}
+        75% {background-color: #f700ff;}   /* Koniec kolor */
+        100% {background-color: #ff0000;} /* Powrót do początkowego koloru */
+    }
+
+    /* Dodatkowa animacja po najechaniu */
+    .dot:hover {
+        transform: scale(1.5); /* Powiększenie kropki */
+    }
+
+    /* Info box */
+    .info-box {
+        position: absolute;
+        background-color: rgba(0, 0, 0, 0.7);
+        color: white;
+        padding: 10px;
+        border-radius: 5px;
+        display: none;
+    }
+
+    .dot:hover + .info-box {
+        display: block;
+    }
+
+    /* Przykładowe położenie kropek */
+    #dot1 {    
+        position: absolute;
+        top: 22%;
+        left: 50%;
+    }
+
+    #dot2 {
+        position: absolute;
+        top: 26%;
+        left: 46%;
+    }
+
+    #dot3 {
+        position: absolute;
+        top: 65%;
+        left: 29%;
+    }
+
+    /* Nowe kropki */
+    #dot4 {
+        position: absolute;
+        top: 20%;
+        left: 20%;
+    }
+
+    #dot5 {
+        position: absolute;
+        top: 25%;
+        left: 66%;
+    }
+    #dot6 {
+        position: absolute;
+        top: 15%;
+        left: 40%;
+    }
+
+    #dot7 {
+        position: absolute;
+        top: 37%;
+        left: 58%;
+    }
+
+    #dot8 {
+        position: absolute;
+        top: 50%;
+        left: 33%;
+    }
+
+    /* Nowe kropki */
+    #dot9 {
+        position: absolute;
+        top: 40%;
+        left: 44%;
+    }
+
+    #dot10 {
+        position: absolute;
+        top: 65%;
+        left: 76%;
+    }
+    #dot11 {
+        position: absolute;
+        top: 16%;
+        left: 66%;
+    }
+
+    #dot12 {
+        position: absolute;
+        top: 48%;
+        left: 53%;
+    }
+
+    #dot13 {
+        position: absolute;
+        top: 30%;
+        left: 30%;
+    }
+
+    /* Nowe kropki */
+    #dot14 {
+        position: absolute;
+        top: 50%;
+        left: 71%;
+    }
+
+    #dot15 {
+        position: absolute;
+        top: 75%;
+        left: 31%;
+    }
+
+    /* Dodaj kolejne kropki według potrzeb */
+    /* ... */
+
+    /* Dodane termometry */
+    .thermometer {
+        font-size: 18px; /* Zmniejszenie rozmiaru */
+        position: absolute;
+    }
+
+    /* Dodane opisy po najechaniu */
+    .thermometer:hover + .info-box {
+        display: block;
+    }
+/* Dodane chmury */
+.rain-cloud {
+    position: absolute;
+    opacity: 0.7; /* Przezroczystość chmur */
+}
+
+/* Animacje chmur */
+@keyframes moveCloud1 {
+    0% {
+        transform: translate(-50%, -50%) rotate(0deg) translateX(100px) rotate(0deg);
+        font-size: 24px;
+    }
+    100% {
+        transform: translate(-50%, -50%) rotate(360deg) translateX(100px) rotate(-360deg);
+        font-size: 30px; /* Zmiana rozmiaru chmury */
+    }
+}
+
+@keyframes moveCloud2 {
+    0% {
+        transform: translate(-50%, -50%) rotate(0deg) translateX(100px) rotate(0deg);
+        font-size: 20px;
+    }
+    100% {
+        transform: translate(-50%, -50%) rotate(360deg) translateX(100px) rotate(-360deg);
+        font-size: 28px;
+    }
+}
+
+@keyframes moveCloud3 {
+    0% {
+        transform: translate(-50%, -50%) rotate(0deg) translateX(100px) rotate(0deg);
+        font-size: 22px;
+    }
+    100% {
+        transform: translate(-50%, -50%) rotate(360deg) translateX(100px) rotate(-360deg);
+        font-size: 26px;
+    }
+}
+
+@keyframes moveCloud4 {
+    0% {
+        transform: translate(-50%, -50%) rotate(0deg) translateX(100px) rotate(0deg);
+        font-size: 26px;
+    }
+    100% {
+        transform: translate(-50%, -50%) rotate(360deg) translateX(100px) rotate(-360deg);
+        font-size: 32px;
+    }
+}
+
+@keyframes moveCloud5 {
+    0% {
+        transform: translate(-50%, -50%) rotate(0deg) translateX(100px) rotate(0deg);
+        font-size: 18px;
+    }
+    100% {
+        transform: translate(-50%, -50%) rotate(360deg) translateX(100px) rotate(-360deg);
+        font-size: 24px;
+    }
+}
+
+
+
+</style>
+</head>
+<body>
+
+<div id="map-container">
+    <div id="map">
+        <div id="map-title">MAPA &ensp;STREF &ensp;KLIMATYCZNYCH&ensp;&ensp;</div>
+        <!-- Tutaj kropki i ich opisy -->
+        <div id="dot1" class="dot"></div>
+        <div class="info-box" style="top: 22%; left: 50%;">
+            <h2>Tytuł 1</h2>
+            <p>Opis 1</p>
+        </div>
+        <div id="dot2" class="dot"></div>
+        <div class="info-box" style="top: 30%; left: 40%;">
+            <h2>Tytuł 2</h2>
+            <p>Opis 2</p>
+        </div>
+        <div id="dot3" class="dot"></div>
+        <div class="info-box" style="top: 70%; left: 27%;">
+            <h2>Tytuł 3</h2>
+            <p>Opis 3</p>
+        </div>
+        <!-- Nowe kropki -->
+        <div id="dot4" class="dot"></div>
+        <div class="info-box" style="top: 20%; left: 20%;">
+            <h2>Tytuł 4</h2>
+            <p>Opis 4</p>
+        </div>
+        <div id="dot5" class="dot"></div>
+        <div class="info-box" style="top: 25%; left: 80%;">
+            <h2>Tytuł 5</h2>
+            <p>Opis 5</p>
+        </div>
+        <div id="dot6" class="dot"></div>
+        <div class="info-box" style="top: 15%; left: 20%;">
+            <h2>Tytuł 6</h2>
+            <p>Opis 1</p>
+        </div>
+        <div id="dot7" class="dot"></div>
+        <div class="info-box" style="top: 37%; left: 60%;">
+            <h2>Tytuł 7</h2>
+            <p>Opis 2</p>
+        </div>
+        <div id="dot8" class="dot"></div>
+        <div class="info-box" style="top: 50%; left: 33%;">
+            <h2>Tytuł 8</h2>
+            <p>Opis 3</p>
+        </div>
+        <!-- Nowe kropki -->
+        <div id="dot9" class="dot"></div>
+        <div class="info-box" style="top: 5%; left: 44%;">
+            <h2>Tytuł 9</h2>
+            <p>Opis 4</p>
+        </div>
+        <div id="dot10" class="dot"></div>
+        <div class="info-box" style="top: 60%; left: 90%;">
+            <h2>Tytuł 10</h2>
+            <p>Opis 5</p>
+        </div>
+        <div id="dot11" class="dot"></div>
+        <div class="info-box" style="top: 16%; left: 66%;">
+            <h2>Tytuł 11</h2>
+            <p>Opis 1</p>
+        </div>
+        <div id="dot12" class="dot"></div>
+        <div class="info-box" style="top: 48%; left: 53%;">
+            <h2>Tytuł 12</h2>
+            <p>Opis 2</p>
+        </div>
+        <div id="dot13" class="dot"></div>
+        <div class="info-box" style="top: 30%; left: 30%;">
+            <h2>Tytuł 13</h2>
+            <p>Opis 3</p>
+        </div>
+        <!-- Nowe kropki -->
+        <div id="dot14" class="dot"></div>
+        <div class="info-box" style="top: 50%; left: 71%;">
+            <h2>Tytuł 14</h2>
+            <p>Opis 4</p>
+        </div>
+        <div id="dot15" class="dot"></div>
+        <div class="info-box" style="top: 75%; left: 31%;">
+            <h2>Tytuł 15</h2>
+            <p>Opis 5</p>
+        </div>
+        <!-- Dodaj kolejne kropki według potrzeb -->
+
+        <!-- Dodane termometry -->
+        <div class="thermometer" style="top: 21%; left: 50.75%;">🌡️</div>
+        <div class="info-box" style="top: 82%; left: 22%;">
+            <h2>Tytuł 16</h2>
+            <p>Opis 6</p>
+        </div>
+
+        <div class="thermometer" style="top: 25%; left: 46.75%;">🌡️</div>
+        <div class="info-box" style="top: 40%; left: 60%;">
+            <h2>Tytuł 17</h2>
+            <p>Opis 7</p>
+        </div>
+
+        <div class="thermometer" style="top: 64%; left: 29.75%;">🌡️</div>
+        <div class="info-box" style="top: 10%; left: 80%;">
+            <h2>Tytuł 18</h2>
+            <p>Opis 8</p>
+        </div>
+
+        <div class="thermometer" style="top: 19%; left: 20.75%;">🌡️</div>
+        <div class="info-box" style="top: 70%; left: 30%;">
+            <h2>Tytuł 19</h2>
+            <p>Opis 9</p>
+        </div>
+
+        <div class="thermometer" style="top: 24%; left: 66.75%;">🌡️</div>
+        <div class="info-box" style="top: 50%; left: 80%;">
+            <h2>Tytuł 20</h2>
+            <p>Opis 10</p>
+        </div>
+
+        <!-- Nowe termometry -->
+        <div class="thermometer" style="top: 14%; left: 40.75%;">🌡️</div>
+        <div class="info-box" style="top: 60%; left: 50%;">
+            <h2>Tytuł 21</h2>
+            <p>Opis 11</p>
+        </div>
+
+        <div class="thermometer" style="top: 36%; left: 58.75%;">🌡️</div>
+        <div class="info-box" style="top: 35%; left: 10%;">
+            <h2>Tytuł 22</h2>
+            <p>Opis 12</p>
+        </div>
+
+        <div class="thermometer" style="top: 49%; left: 33.75%;">🌡️</div>
+        <div class="info-box" style="top: 80%; left: 60%;">
+            <h2>Tytuł 23</h2>
+            <p>Opis 13</p>
+        </div>
+
+        <div class="thermometer" style="top: 39%; left: 44.75%;">🌡️</div>
+        <div class="info-box" style="top: 90%; left: 80%;">
+            <h2>Tytuł 24</h2>
+            <p>Opis 14</p>
+        </div>
+
+        <div class="thermometer" style="top: 64%; left: 76.75%;">🌡️</div>
+        <div class="info-box" style="top: 15%; left: 80%;">
+            <h2>Tytuł 25</h2>
+            <p>Opis 15</p>
+        </div>
+
+        <!-- Nowe termometry -->
+        <div class="thermometer" style="top: 15%; left: 66.75%;">🌡️</div>
+        <div class="info-box" style="top: 30%; left: 30%;">
+            <h2>Tytuł 26</h2>
+            <p>Opis 16</p>
+        </div>
+
+        <div class="thermometer" style="top: 47%; left: 53.75%;">🌡️</div>
+        <div class="info-box" style="top: 45%; left: 60%;">
+            <h2>Tytuł 27</h2>
+            <p>Opis 17</p>
+        </div>
+
+        <div class="thermometer" style="top: 49%; left: 71.75%;">🌡️</div>
+        <div class="info-box" style="top: 25%; left: 20%;">
+            <h2>Tytuł 28</h2>
+            <p>Opis 18</p>
+        </div>
+
+        <div class="thermometer" style="top: 75%; left: 31.75%;">🌡️</div>
+        <div class="info-box" style="top: 70%; left: 70%;">
+            <h2>Tytuł 29</h2>
+            <p>Opis 19</p>
+        </div>
+
+        <div class="thermometer" style="top: 29%; left: 30.75%;">🌡️</div>
+        <div class="info-box" style="top: 50%; left: 20%;">
+            <h2>Tytuł 30</h2>
+            <p>Opis 20</p>
+        </div>
+
+        <div class="rain-cloud" style="top: 10%; left: 100px; animation: moveCloud1 20s linear infinite;">🌧️</div>
+        <div class="rain-cloud" style="top: 20%; left: 300px; animation: moveCloud2 25s linear infinite;">🌧️</div>
+        <div class="rain-cloud" style="top: 50%; left: 500px; animation: moveCloud3 22s linear infinite;">🌧️</div>
+        <div class="rain-cloud" style="top: 40%; left: 700px; animation: moveCloud4 23s linear infinite;">🌧️</div>
+        <div class="rain-cloud" style="top: 30%; left: 900px; animation: moveCloud5 24s linear infinite;">🌧️</div>
+    </div>
+    <div id="map-label">&#xe88a;</div>
+</div>
+
+<script>
+    
+    // Tutaj dodaj swój kod JavaScript
+    // Możesz dodać go tutaj, na końcu pliku HTML
+    // lub utwórz zewnętrzny plik JavaScript i zaimportuj go tutaj za pomocą tagu <script src="nazwa-pliku.js"></script>
+</script>
+
+</body>
+</html>
